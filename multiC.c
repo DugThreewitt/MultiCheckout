@@ -109,7 +109,7 @@ void multiLineSim( queue * custQ , int checkQty )
 		lanes[i].totalIdle =  0 ;
 		lanes[i].currentWait =  0 ;
 		lanes[i].totalWait =  0 ;
-		lanes[i].totalCustomers =  0 ;
+//		lanes[i].totalCustomers =  0 ;
 		lanes[i].nextAvailable = 0;
 		lines[i] = create();	//initialize each queu in the array
 
@@ -159,6 +159,7 @@ void multiLineSim( queue * custQ , int checkQty )
 					lanes[i].totalWait += lanes[i].currentWait;
 					lanes[i].nextAvailable += innerTemp.service; //set cashier next ready
 					lanes[i].currentCust = innerTemp;//move customer to checkout
+					lanes[i].totalCustomers ++;
 					printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, lanes[i].nextAvailable);
 					continue; //continues to next iteration
 				}
@@ -168,6 +169,7 @@ void multiLineSim( queue * custQ , int checkQty )
 					lanes[i].totalIdle += lanes[i].currentIdle;
 					lanes[i].nextAvailable = innerTemp.arrival + innerTemp.service; //set cashier next ready
 					lanes[i].currentCust = innerTemp;//move customer to checkout
+					lanes[i].totalCustomers ++;
 				 	printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, lanes[i].nextAvailable);
 					continue; //continues to next iteration	
 				}
