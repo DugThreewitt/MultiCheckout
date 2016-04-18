@@ -118,6 +118,7 @@ void multiLineSim( queue * custQ , int checkQty )
 	while(/* checkSubs( lines, checkQty ) != 0 &&*/ ! isEmpty (custQ)/* loopCount < 1000*/ )
 	{
 		temp = take(custQ);
+		printf("arrival: %d\tservice: %d\n", temp.arrival, temp.service);
 
 //		printf("Count: %d\n", loopCount);
 
@@ -144,7 +145,8 @@ void multiLineSim( queue * custQ , int checkQty )
 				printf("ready: %d\tservice: %d\ttemp Start: %d\n", ready, lanes[chosenQ].currentCust.service, lanes[chosenQ].nextAvailable);		//temp.start = ready;
 			} */
 		}
-	
+//		printf("after lane choose\n");
+
 		for( i = 0 ; i < checkQty ; i++ )
 		{
 			if(loopCount == lanes[i].nextAvailable) //finds when checkout i is ready
@@ -154,6 +156,7 @@ void multiLineSim( queue * custQ , int checkQty )
 				if ( innerTemp.arrival <= lanes[i].nextAvailable ) // if they arrive after the cashier is ready
 				{
 					lanes[i].currentWait = lanes[i].nextAvailable - innerTemp.arrival;
+					lanes[i].totalWait += lanes[i].currentWait;
 					lanes[i].nextAvailable += innerTemp.service; //set cashier next ready
 					lanes[i].currentCust = innerTemp;//move customer to checkout
 					printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, lanes[i].nextAvailable);
@@ -162,6 +165,7 @@ void multiLineSim( queue * custQ , int checkQty )
 				else  // checks start time of innerTemp(set to 0 outsizde of loop
 				{
 					lanes[i].currentIdle = innerTemp.arrival - lanes[i].nextAvailable;
+					lanes[i].totalIdle += lanes[i].currentIdle;
 					lanes[i].nextAvailable = innerTemp.arrival + innerTemp.service; //set cashier next ready
 					lanes[i].currentCust = innerTemp;//move customer to checkout
 				 	printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, lanes[i].nextAvailable);
