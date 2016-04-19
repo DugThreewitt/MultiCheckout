@@ -120,14 +120,17 @@ void multiLineSim( queue * custQ , int checkQty )
 		temp = take(custQ);
 		printf("arrival: %d\tservice: %d\n", temp.arrival, temp.service);
 
+		loopCount = temp.arrival;
 //		printf("Count: %d\n", loopCount);
 
-		if(temp.arrival == loopCount) //customer arrives
-		{
-			chosenQ = findNextQueue( lines , checkQty ); // choosese queue
+	/*	if(temp.arrival == loopCount) //customer arrives
+		{*/
+		chosenQ = findNextQueue( lines , checkQty ); // choosese queue
 			//printf("Going to %d\n", chosenQ + 1);
-			add(&lines[chosenQ], temp ); //taken from main queue and moved to queue array
-			/*if(lines[chosenQ].qSize == 1)
+		add(&lines[chosenQ], temp ); //taken from main queue and moved to queue array
+
+		printf("Lane: %-4d\tArrival: %d\tService: %d\n", chosenQ+1, lines[chosenQ].back->cust.arrival, lines[chosenQ].back->cust.service);
+/*if(lines[chosenQ].qSize == 1)
 			{
 				lanes[chosenQ].currentCust = temp;
 			//	take(&lines[chosenQ]);
@@ -144,9 +147,9 @@ void multiLineSim( queue * custQ , int checkQty )
 				//ready = innerTemp.start + innerTemp.service;
 				printf("ready: %d\tservice: %d\ttemp Start: %d\n", ready, lanes[chosenQ].currentCust.service, lanes[chosenQ].nextAvailable);		//temp.start = ready;
 			} */
-		}
+	//	}
 //		printf("after lane choose\n");
-
+/*
 		for( i = 0 ; i < checkQty ; i++ )
 		{
 			if(loopCount == lanes[i].nextAvailable) //finds when checkout i is ready
@@ -160,7 +163,9 @@ void multiLineSim( queue * custQ , int checkQty )
 					lanes[i].nextAvailable += innerTemp.service; //set cashier next ready
 					lanes[i].currentCust = innerTemp;//move customer to checkout
 					lanes[i].totalCustomers ++;
-					printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, lanes[i].nextAvailable);
+					printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, innerTemp.start);
+					if(loopCount < checkQty)
+						i = checkQty + 1;
 					continue; //continues to next iteration
 				}
 				else  // checks start time of innerTemp(set to 0 outsizde of loop
@@ -170,12 +175,14 @@ void multiLineSim( queue * custQ , int checkQty )
 					lanes[i].nextAvailable = innerTemp.arrival + innerTemp.service; //set cashier next ready
 					lanes[i].currentCust = innerTemp;//move customer to checkout
 					lanes[i].totalCustomers ++;
-				 	printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, lanes[i].nextAvailable);
+				 	printf("Lane: %-4d\tArrival: %d\tNext: %d\n", i+1, innerTemp.arrival, innerTemp.start);
+					if(loopCount < checkQty)
+						i = checkQty + 1;
 					continue; //continues to next iteration	
 				}
 			}
-		}
-		loopCount++;
+		}*/
+//		loopCount++;
 
 //		printf("loop Count: %d\n", loopCount);
 		

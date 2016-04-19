@@ -90,11 +90,12 @@ customerT take (  queue *  custQ )
 
 //	int val = custQ.front->val;
 //	node * temp = custQ->front;
-
+	customerT cust = { 0 };
+	
 	if (custQ->qSize == 0)
 	{
 		//printf("queue is empty\n");
-		return ;
+		return cust;
 	}
 
 /*	if(custQ->front = custQ->back = NULL)
@@ -106,7 +107,8 @@ customerT take (  queue *  custQ )
 	{
 		cu
 */	
-		customerT cust = custQ->front->cust;	
+		cust = custQ->front->cust;	
+		free(custQ->front);
 		custQ->front = custQ->front->next;
 		custQ->qSize--;
 		return cust;
