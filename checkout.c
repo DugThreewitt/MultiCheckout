@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <ctype.h>
 #include "types.h"
@@ -16,8 +17,56 @@
 
 
 // Main program
-int main ()
+int main (int argc, char *argv[])
 {
+
+	int opt, lCount = 10, cCount = 250, maxS = 400, minS = 100, avgA = 60;
+	int lfnd, cfnd, mfnd, nfnd, afnd;
+//	myassert ( argc < 1);
+
+	if(argc > 1)
+	{
+		while((opt = getopt(argc, argv, "l:c:m:n:a:")) != -1)
+		{
+			switch(opt)
+			{
+			case 'l':
+				lCount = atoi(optarg);
+				lfnd = 1;
+				break;
+			case 'c':
+				cCount = atoi(optarg);
+				cfnd = 1;
+				break;
+			case 'm':
+				maxS = atoi(optarg);
+				mfnd = 1;
+				break;
+			case 'n':
+				minS = atoi(optarg);
+				nfnd = 1;
+				break;
+			case 'a':
+				avgA = atoi(optarg);
+				afnd = 1;
+				break;
+			case '?':
+				fprintf(stderr,"Usage: %s [-l lanes nLanes] [-c customers nCustomers] [-m maxService nMax] [-n minService nMin] [-a averageArrival nAvg]\n", argv[0]);
+				exit(EXIT_FAILURE);
+			}
+		
+//			printf("Program: %s Arg no: %d -l called: %d, option %d, -c called %d, option %d\n",argv[0], opt, lfnd, lCount, cfnd, cCount);
+		}
+		
+	}
+
+/*
+	if (optind >= argc)
+	{
+		fprintf(stderr, "Expected argument after options\n");
+		exit(EXIT_FAILURE);
+	}
+*/
 
 	queue custQ;
 	customerT cust;
@@ -52,6 +101,9 @@ int main ()
 
 //	singleLineSim( &custQ, laneCount );
 	multiLineSim( &custQ, laneCount);
+
+
+	printf("\nLanes: %-3d  Customers: %d\tMax Service Time: %d\tMin Service Time: %d\tAverage Arrival: %d\n\n", lCount, cCount, maxS, minS, avgA);
 /*
 	for( i = 0 ; i < count ; i++)
 	{
