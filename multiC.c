@@ -86,17 +86,13 @@ void multiLineSim( queue * custQ , int checkQty )
 	int startCust;
 	float avgIdle, avgWait, avgLIdle, avgLWait;
 	customerT temp, innerTemp, discard;
-	//queue * discard;
 	
 	temp = take(custQ);
 	innerTemp.arrival =  0;
 	innerTemp.service = 0;
 	innerTemp.start = 0;
-	//printf("multi Called\n");
 
 
-	//temp = front(custQ); // first customer in line
-//	custQ->front->cust.start = 0;
 
 
 	for( i ; i < checkQty ; i++) // intialize values as needed
@@ -120,28 +116,23 @@ void multiLineSim( queue * custQ , int checkQty )
 		{
 			temp = take(custQ);
 
-			//printf("arrival: %d\tservice: %d\n", temp.arrival, temp.service);
-
 			loopCount = temp.arrival;
 
-			chosenQ = findNextQueue( lines , checkQty ); // choosese queue
+			chosenQ = findNextQueue( lines , checkQty ); // chooses queue
 			add(&lines[chosenQ], temp ); //taken from main queue and moved to queue array
-			discard = take(&lines[chosenQ]);
+			discard = take(&lines[chosenQ]); // removes junk at beginning of array[chosenQ] queu
 			add(&lines[chosenQ], temp);
-			startCust = custQ->qSize;
-		//	printf("chosen lane %d\tsize: %d\n", chosenQ+1, lines[chosenQ].qSize);
+			startCust = custQ->qSize; // counts to see how many customers are remaining
 		}
 
 		for( i = 0 ; i < checkQty ; i++ )
 		{
-			//printf("Queue size: %d\n", lines[i].qSize);
-			//test = lanes[i].nextAvailable;
 			
 
 			if( lanes[i].nextAvailable <= loopCount && loopCount != 0)
 			{
 
-	/* problem is here*/	if( lines[i].qSize > 0 )
+				if( lines[i].qSize > 0 )
 				{
 					innerTemp = take(&lines[i]);
 
@@ -163,22 +154,15 @@ void multiLineSim( queue * custQ , int checkQty )
 						lanes[i].nextAvailable = innerTemp.arrival + innerTemp.service;
 					}
 
-				//	startCust--;
 
 					printf("Lane: %-3dCurrent Wait: %-3d\tAverage Wait: %7.2f\tCurrent Idle: %-5d\tAverage Idle: %7.2f\tCustomers Served: %-4d\tCustomers Waiting: %-4d\t\n",i+1, lanes[i].currentWait,(float)(lanes[i].currentWait/lanes[i].totalCustomers),lanes[i].currentIdle,(float)(lanes[i].totalIdle/lanes[i].totalCustomers),  lanes[i].totalCustomers, startCust, lanes[i].nextAvailable);
 				}
 
-		//	printf("Lane: %-3d\t\tNext Available: %-4d\tCustomers Served: %-3d\tWaiting: %-3d\n", i+1, lanes[i].nextAvailable, lanes[i].totalCustomers, lines[i].qSize);
 			}
 		}
 			
-
-//		printf("Lane: %-4d\tArrival: %d\tService: %d\n", chosenQ+1, lines[chosenQ].back->cust.arrival, lines[chosenQ].back->cust.service);
-
 		loopCount++;
 
-//		printf("loop Count: %d\n", loopCount);
-		
 	}
 	
 	for( i = 0 ; i < checkQty ; i++ )

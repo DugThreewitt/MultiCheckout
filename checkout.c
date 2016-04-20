@@ -69,8 +69,6 @@ int main (int argc, char *argv[])
 
 	createFile(count, minS, maxS, avgA); // create the customers file with count customers, minS minimum service, maxS max and avgA for average arrival
 
-//	createFile(count);
-
 	FILE * fd;
 	
 	if ( ( fd = fopen( "customers", "r") ) == NULL )
@@ -90,7 +88,7 @@ int main (int argc, char *argv[])
 
 
 
-	multiLineSim( &custQ, laneCount);
+	multiLineSim( &custQ, laneCount); // run sim for customer going to shortest available line
 
 
 	printf("\nLanes: %-3d  Customers: %d\tMax Service Time: %d\tMin Service Time: %d\tAverage Arrival: %d\n\n", lCount, cCount, maxS, minS, avgA);

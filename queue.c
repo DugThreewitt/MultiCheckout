@@ -11,7 +11,6 @@
 #include <ctype.h>
 #include "types.h"
 #include "queue.h"
-//#include "proto.h"
 
 /* **********************************************************************
  * Function: create()
@@ -23,12 +22,8 @@
 queue create()
 {
 	queue custQ;
-//	customerT cust;
-//	cust.arrival = 0;
-//	cust.service = 0;
 
 	custQ.front = (node *)malloc(sizeof(node));
-	//custQ.front -> cust = cust;
 	custQ.front -> next = NULL;
 	custQ.back = custQ.front;
 	custQ.qSize = 0;
@@ -61,29 +56,16 @@ int isEmpty( queue * custQ )
 
 queue * add( queue* custQ, customerT  cust )
 {
-/*	
-	if( ! custQ->front)
-	{
-		custQ->front = (node * )malloc(sizeof(node));
-		custQ->front -> next = NULL;
-		custQ->back = custQ->front;
-		custQ->qSize = 0;
-		custQ->front->cust = cust;
-		custQ->qSize++;
-	}
-	else
-	{*/
-		node * newNode;
-		cust.start = 0;
+	node * newNode;
+	cust.start = 0;
 
-		newNode = (node *)malloc(sizeof(node));
-		newNode->cust = cust;
-		newNode->next = NULL;
+	newNode = (node *)malloc(sizeof(node));
+	newNode->cust = cust;
+	newNode->next = NULL;
 
-		custQ->back->next = newNode;
-		custQ->back = newNode;
-		custQ->qSize++;
-//	}
+	custQ->back->next = newNode;
+	custQ->back = newNode;
+	custQ->qSize++;
 
 	return custQ;
 
@@ -100,46 +82,17 @@ queue * add( queue* custQ, customerT  cust )
 customerT take (  queue *  custQ )
 {
 
-//	int val = custQ.front->val;
-//	node * temp = custQ->front;
 	customerT cust = { 0 };
 	
 	if (custQ->qSize == 0)
 	{
-		//printf("queue is empty\n");
 		return cust;
 	}
 
-/*	if(custQ->front = custQ->back = NULL)
-	{
-		custQ->qSize--;
-		return temp->cust;
-	}
-	else
-	{
-		cu
-*/	
-		cust = custQ->front->cust;	
-		free(custQ->front);
-		custQ->front = custQ->front->next;
-		custQ->qSize--;
-		return cust;
-/*	}
-	free(temp); */
-}
-/*
-customerT front (queue *  custQ)
-{
-	if( custQ->qSize == 0 )
-	{
-		customerT cust; // needed this to avoid seg faults when empty
-		cust.arrival = -1;
+	cust = custQ->front->cust;	
+	free(custQ->front);
+	custQ->front = custQ->front->next;
+	custQ->qSize--;
 
-		printf("queue is empty\n");
-//		custQ.back->cust.arrival = -1;
-		return cust;
-	}
-	
-	return custQ->front->cust;
+	return cust;
 }
-*/
