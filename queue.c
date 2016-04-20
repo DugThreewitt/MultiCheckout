@@ -61,17 +61,29 @@ int isEmpty( queue * custQ )
 
 queue * add( queue* custQ, customerT  cust )
 {
-	
-	node * newNode;
-	cust.start = 0;
+/*	
+	if( ! custQ->front)
+	{
+		custQ->front = (node * )malloc(sizeof(node));
+		custQ->front -> next = NULL;
+		custQ->back = custQ->front;
+		custQ->qSize = 0;
+		custQ->front->cust = cust;
+		custQ->qSize++;
+	}
+	else
+	{*/
+		node * newNode;
+		cust.start = 0;
 
-	newNode = (node *)malloc(sizeof(node));
-	newNode->cust = cust;
-	newNode->next = NULL;
+		newNode = (node *)malloc(sizeof(node));
+		newNode->cust = cust;
+		newNode->next = NULL;
 
-	custQ->back->next = newNode;
-	custQ->back = newNode;
-	custQ->qSize++;
+		custQ->back->next = newNode;
+		custQ->back = newNode;
+		custQ->qSize++;
+//	}
 
 	return custQ;
 

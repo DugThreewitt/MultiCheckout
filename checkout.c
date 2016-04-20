@@ -21,7 +21,7 @@ int main ()
 
 	queue custQ;
 	customerT cust;
-	int count =50 ;
+	int count = 250 ;
 	int i = 0;
 	int laneCount = 10;
 
