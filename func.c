@@ -41,7 +41,7 @@ customerT popCustomer()
  * purpose: create a file filled with customers
  * *********************************************************************/
 
-void createFile (int x)
+void createFile (int x, int min, int max, int avg)
 {
 	FILE * fd;
 	int i = 0;
@@ -58,14 +58,12 @@ void createFile (int x)
 	for( i ; i < x ; i++ )
 	{
 		cust.arrival = arr;
-		cust.service = (100 + (rand() % 300));
+		cust.service = (min + (rand() % (max-min)));
 
 
 		fprintf(fd, "%d %d\n", cust.arrival, cust.service);
 
-//		custQ = add(custQ, cust);
-
-		arr += rand() % 120;
+		arr += rand() % (avg * 2);
 	}
 	
 	
@@ -74,9 +72,10 @@ void createFile (int x)
 }
 
 
+// tried to use this, but it would seg fault, so I kept it in the main checkout.c program
 /* **********************************************************************
  * Function: readFile()
- * inputs: none
+ * inputs: non0e
  * outputs: queue
  * purpose: reads customerT from the file
  * *********************************************************************/

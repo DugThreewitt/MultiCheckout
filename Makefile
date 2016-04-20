@@ -5,7 +5,7 @@
 CC = gcc
 CFLAGS = -g 
 TARGET = checkout
-OBJS = checkout.o func.o queue.o multiC.o types.h proto.h queue.h multiC.h
+OBJS = checkout.o func.o queue.o multiC.o types.h proto.h queue.h multiC.h lanes.h
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $(OBJS)

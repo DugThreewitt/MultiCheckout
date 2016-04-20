@@ -19,10 +19,9 @@
 // Main program
 int main (int argc, char *argv[])
 {
-
+// variables for command line arguments don't think I need lfnd etc , but they were in the example
 	int opt, lCount = 10, cCount = 250, maxS = 400, minS = 100, avgA = 60;
 	int lfnd, cfnd, mfnd, nfnd, afnd;
-//	myassert ( argc < 1);
 
 	if(argc > 1)
 	{
@@ -55,28 +54,22 @@ int main (int argc, char *argv[])
 				exit(EXIT_FAILURE);
 			}
 		
-//			printf("Program: %s Arg no: %d -l called: %d, option %d, -c called %d, option %d\n",argv[0], opt, lfnd, lCount, cfnd, cCount);
 		}
 		
 	}
 
-/*
-	if (optind >= argc)
-	{
-		fprintf(stderr, "Expected argument after options\n");
-		exit(EXIT_FAILURE);
-	}
-*/
 
 	queue custQ;
 	customerT cust;
-	int count = 250 ;
+	int count = cCount ;
 	int i = 0;
-	int laneCount = 10;
+	int laneCount = lCount;
 
 	custQ = create();
 
-	createFile(count);
+	createFile(count, minS, maxS, avgA); // create the customers file with count customers, minS minimum service, maxS max and avgA for average arrival
+
+//	createFile(count);
 
 	FILE * fd;
 	
@@ -94,24 +87,13 @@ int main (int argc, char *argv[])
 	}
 
 	fclose( fd );
-	//custQ = readFile( &custQ );
 
 
-	//custQ=take(custQ);
 
-//	singleLineSim( &custQ, laneCount );
 	multiLineSim( &custQ, laneCount);
 
 
 	printf("\nLanes: %-3d  Customers: %d\tMax Service Time: %d\tMin Service Time: %d\tAverage Arrival: %d\n\n", lCount, cCount, maxS, minS, avgA);
-/*
-	for( i = 0 ; i < count ; i++)
-	{
-		cust = front(custQ);
-		printf("Current arrival: %5d\tservice:%5d\n", cust.arrival, cust.service);
-		custQ = take(custQ);
-	}
-*/	
 	
 
 
