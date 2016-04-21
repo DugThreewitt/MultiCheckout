@@ -82,9 +82,10 @@ void multiLineSim( queue * custQ , int checkQty )
 	int allWait = 0;
 	int allIdle = 0;
 	int allCust = 0;
+	int allLine = 0;
 	int diff = 0;
 	int startCust;
-	float avgIdle, avgWait, avgLIdle, avgLWait;
+	float avgIdle, avgWait, avgLIdle, avgLWait, avgLine, avgLLine;
 	customerT temp, innerTemp, discard;
 	
 	temp = take(custQ);
@@ -104,7 +105,8 @@ void multiLineSim( queue * custQ , int checkQty )
 		lanes[i].totalIdle = 0;
 		lanes[i].currentCust.arrival = 0;
 		lanes[i].currentCust.service = 0;
-		lanes[i].lineLength = 0;
+		lanes[i].lineWait = 0;
+		lanes[i].totalLineWait = 0;
 		lanes[i].totalCustomers = 0;
 		lines[i] = create();	//initialize each queu in the array
 		discard = take(&lines[i]); // get rid of junk customer
@@ -144,18 +146,22 @@ void multiLineSim( queue * custQ , int checkQty )
 					if( diff > 0 )
 					{
 						lanes[i].currentWait = diff;
+						lanes[i].lineWait = diff + innerTemp.service;
+						lanes[i].totalLineWait += lanes[i].lineWait;
 						lanes[i].totalWait += lanes[i].currentWait;
 						lanes[i].nextAvailable += innerTemp.service;
 					}
 					else
 					{
 						lanes[i].currentIdle =( diff * -1 );
+						lanes[i].lineWait = innerTemp.service;
+						lanes[i].totalLineWait += lanes[i].lineWait;
 						lanes[i].totalIdle += lanes[i].currentIdle;
 						lanes[i].nextAvailable = innerTemp.arrival + innerTemp.service;
 					}
 
 
-					printf("Lane: %-3dCurrent Wait: %-3d\tAverage Wait: %7.2f\tCurrent Idle: %-5d\tAverage Idle: %7.2f\tCustomers Served: %-4d\tCustomers Waiting: %-4d\t\n",i+1, lanes[i].currentWait,(float)(lanes[i].currentWait/lanes[i].totalCustomers),lanes[i].currentIdle,(float)(lanes[i].totalIdle/lanes[i].totalCustomers),  lanes[i].totalCustomers, startCust, lanes[i].nextAvailable);
+					printf("Lane: %-2d   Total Wait: %-3d    Average Total Wait: %6.2f    Line Wait : %-4d    Average Line Wait: %6.2f    Current Idle: %-5d    Average Idle: %7.2f    Customers Served: %-4d    Customers Waiting: %-4d\n",i+1, lanes[i].lineWait, (float)lanes[i].totalLineWait/(float)lanes[i].totalCustomers, lanes[i].currentWait,(float)lanes[i].currentWait/(float)lanes[i].totalCustomers,lanes[i].currentIdle,(float)(lanes[i].totalIdle/lanes[i].totalCustomers),  lanes[i].totalCustomers, startCust, lanes[i].nextAvailable);
 				}
 
 			}
@@ -169,29 +175,33 @@ void multiLineSim( queue * custQ , int checkQty )
 	{
 		allWait += lanes[i].totalWait;
 		allIdle += lanes[i].totalIdle;
+		allLine += lanes[i].totalLineWait;
 		allCust += lanes[i].totalCustomers;
 	}
 	
 	avgIdle = (float)allIdle / (float)allCust;
 	avgWait = (float)allWait / (float)allCust;
+	avgLine = (float)allLine / (float)allCust;
 
 	printf("\nShortest Line report:\n\n");
-	printf("Total Customers Served: %-4d\t\tAverage Total Wait Time: %7.2f\tAverage Cashier Idle Time: %7.2f\n\n", allCust, avgWait, avgIdle);
+	printf("Total Customers Served: %-4d\tAverage Line Wait Time %7.2f\t    Average Total Wait Time: %7.2f\tAverage Cashier Idle Time: %7.2f\n\n", allCust, avgWait, avgLine, avgIdle);
 	
 	for( i = 0 ; i < checkQty ; i++ )
 	{
 		if(lanes[i].totalCustomers == 0)
 		{
 			avgLIdle = 0;
+			avgLLine = 0;
 			avgLWait = 0;
 		}
 		else
 		{
 			avgLIdle = (float)lanes[i].totalIdle / (float)lanes[i].totalCustomers;
 			avgLWait = (float)lanes[i].totalWait / (float)lanes[i].totalCustomers;
+			avgLLine = (float)lanes[i].totalLineWait / (float)lanes[i].totalCustomers;
 		}
 
-		printf("Lane %-5d:\tTotal Customers: %-6d\tAverage Wait Time: %7.2f\tAverage Cashier Idle Time: %7.2f\n", (i+1), lanes[i].totalCustomers, avgLWait, avgLIdle);
+		printf("Lane %-5d:\tTotal Customers: %-6d\tAverage Wait Time: %7.2f\tAverage Total Wait: %7.2f\tAverage Cashier Idle Time: %7.2f\n", (i+1), lanes[i].totalCustomers, avgLWait, avgLLine, avgLIdle);
 	}
 
 	printf("\n");

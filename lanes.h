@@ -13,7 +13,8 @@
 typedef struct
 {
 	int totalCustomers;
-	int lineLength;
+	int lineWait;
+	int totalLineWait;
 	int currentIdle;
 	int totalIdle;
 	int nextAvailable;
