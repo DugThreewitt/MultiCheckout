@@ -87,6 +87,7 @@ int main (int argc, char *argv[])
 	fclose( fd );
 
 
+	printf("\n");
 
 	multiLineSim( &custQ, laneCount); // run sim for customer going to shortest available line
 

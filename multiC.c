@@ -161,7 +161,7 @@ void multiLineSim( queue * custQ , int checkQty )
 					}
 
 
-					printf("Lane: %-2d   Total Wait: %-3d    Average Total Wait: %6.2f    Line Wait : %-4d    Average Line Wait: %6.2f    Current Idle: %-5d    Average Idle: %7.2f    Customers Served: %-4d    Customers Waiting: %-4d\n",i+1, lanes[i].lineWait, (float)lanes[i].totalLineWait/(float)lanes[i].totalCustomers, lanes[i].currentWait,(float)lanes[i].currentWait/(float)lanes[i].totalCustomers,lanes[i].currentIdle,(float)(lanes[i].totalIdle/lanes[i].totalCustomers),  lanes[i].totalCustomers, startCust, lanes[i].nextAvailable);
+					printf("Lane: %-2d   Total Wait: %-4d    Average Total Wait: %7.2f    Line Wait : %-4d    Average Line Wait: %7.2f    Current Idle: %-5d    Average Idle: %7.2f    Customers Served: %-4d    Customers Waiting: %-4d\n",i+1, lanes[i].lineWait, (float)lanes[i].totalLineWait/(float)lanes[i].totalCustomers, lanes[i].currentWait,(float)lanes[i].currentWait/(float)lanes[i].totalCustomers,lanes[i].currentIdle,(float)(lanes[i].totalIdle/lanes[i].totalCustomers),  lanes[i].totalCustomers, startCust, lanes[i].nextAvailable);
 				}
 
 			}
